@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../util/Validation";
+import {Auth} from 'aws-amplify';
 
 class LogIn extends Component {
   state = {
     username: "",
     password: "",
     errors: {
-      blankfield: false
+      blankfield: false,
+      cognito:null
     }
   };
 
   clearErrors = () => {
     this.setState({
       errors: {
-        blankfield: false
+        blankfield: false,
+        cognito:null
       }
     });
   };
@@ -32,6 +35,23 @@ class LogIn extends Component {
       });
     }
     //Integrate Cognito here on valid form submission
+    try {
+      const user = await Auth.signIn(this.state.username, this.state.password);
+      console.log(user);
+      //redirect to Welcome page if registration is successful
+      this.props.history.push("/");
+    } catch (error){
+      //check if error has a message property, if not add one.
+      let err = null;
+      !error.message ? err= {"message": error } : err = error;
+      //set form error as a cognito error
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
   };
 
   onInputChange = event => {
