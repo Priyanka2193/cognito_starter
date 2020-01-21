@@ -43,8 +43,12 @@ export default class Navbar extends Component {
                 </div>
                 )}
                 {this.props.auth.isAuth &&(
+                  <div>
+                    <a href="/changepassword"  className="button is-light">
+                  Change Password</a>
                   <a href="/" onClick={this.logOutHandler} className="button is-light">
                   Log Out</a>
+                  </div>
                 )}
               </div>
             </div>
