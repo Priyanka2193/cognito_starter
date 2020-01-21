@@ -7,7 +7,6 @@ import {Auth} from 'aws-amplify';
 class ForgotPassword extends Component {
   state = {
     email: "",
-    password: "",
     errors: {
       blankfield: false,
       cognito:null
